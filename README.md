@@ -2,7 +2,8 @@ localcloud-php
 =========
 
 This role will install latest stable php release with a configurable list of modules, expose important settings and
-manage your fpm pool set up. Use this to quickly install and manage your php deployment in a reliable way.
+manage your fpm pool set up. Use this to quickly install and manage your php deployment and composer package manager
+in a reliable way.
 
 Requirements
 ------------

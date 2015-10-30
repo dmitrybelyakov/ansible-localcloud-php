@@ -1,2 +1,122 @@
 ---
-# tasks file for .
+# ------------------------------------------------------------------------------
+# install php
+# ------------------------------------------------------------------------------
+
+- name: add php repo
+  apt_repository: repo='ppa:ondrej/php5-5.6'
+
+- name: open ssl and mcrypt
+  apt: pkg={{item}} state=latest
+  with_items:
+    - mcrypt
+    - openssl
+
+- name: install php
+  apt: pkg={{item}} state=present
+  notify: restart php
+  with_items: "{{php_modules}}"
+
+- name: ensure php starts at boot
+  service: name=php5-fpm state=started enabled=yes
+
+
+# ------------------------------------------------------------------------------
+# install composer
+# ------------------------------------------------------------------------------
+
+- name: install composer
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  args:
+    creates: /usr/local/bin/composer
+
+- name: self update composer
+  shell: /usr/local/bin/composer self-update
+
+# ------------------------------------------------------------------------------
+# backup configs and configure php
+# ------------------------------------------------------------------------------
+
+- name: get php-fpm ini backup stats
+  stat: path=/etc/php5/fpm/php.ini.original.bak follow=False
+  register: php_fpm_ini_bak
+
+- name: backup php-fpm ini (if required)
+  notify: restart php
+  shell: mv /etc/php5/fpm/php.ini /etc/php5/fpm/php.ini.original.bak
+  when: php_fpm_ini_bak.stat.exists == False
+
+- name: get php-fpm ini stats
+  stat: path=/etc/php5/fpm/php.ini follow=False
+  register: php_fpm_ini
+
+- name: copy php-fpm ini to server (if required)
+  notify: restart php
+  template: src=php.ini dest=/etc/php5/fpm/php.ini
+  when: php_fpm_ini.stat.exists == False or php_manage_ini
+
+- name: get php-cli ini stats
+  stat: path=/etc/php5/cli/php.ini follow=False
+  register: php_cli_ini
+
+- name: backup php-cli ini (if required)
+  notify: restart php
+  shell: mv /etc/php5/cli/php.ini /etc/php5/cli/php.ini.original.bak
+  when: php_cli_ini.stat.islnk is defined and php_cli_ini.stat.islnk == False
+
+- name: get php-cli ini stats
+  stat: path=/etc/php5/cli/php.ini follow=False
+  register: php_cli_ini
+
+- name: create php-cli config symlink
+  notify: restart php
+  file:
+    state=link
+    src=/etc/php5/fpm/php.ini
+    dest=/etc/php5/cli/php.ini
+  when: php_cli_ini.stat.exists == False
+
+
+# ------------------------------------------------------------------------------
+# backup and configure fpm
+# ------------------------------------------------------------------------------
+
+- name: get php fpm config backup stats
+  stat: path=/etc/php5/fpm/php-fpm.conf.original.bak
+  register: php_fpm_config_bak
+
+- name: backup php-fpm config (if required)
+  notify: restart php
+  shell: mv /etc/php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf.original.bak
+  when: php_fpm_config_bak.stat.exists == False
+
+- name: get php fpm config stats
+  stat: path=/etc/php5/fpm/php-fpm.conf
+  register: php_fpm_config
+
+- name: copy php-fpm ini to server (if required)
+  notify: restart php
+  template: src=php-fpm.conf dest=/etc/php5/fpm/php-fpm.conf
+  when: php_fpm_config.stat.exists == False or php_manage_fpm_config
+
+# ------------------------------------------------------------------------------
+# backup and configure fpm default ppo
+# ------------------------------------------------------------------------------
+
+- name: get php-fpm default pool backup stats
+  stat: path=/etc/php5/fpm/pool.d/www.conf.original.bak
+  register: php_fpm_default_pool_bak
+
+- name: backup php-fpm default pool (if required)
+  notify: restart php
+  shell: mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf.original.bak
+  when: php_fpm_default_pool_bak.stat.exists == False
+
+- name: get php-fpm default pool stats
+  stat: path=/etc/php5/fpm/pool.d/www.conf
+  register: php_fpm_default_pool
+
+- name: copy php-fpm ini to server (if required)
+  notify: restart php
+  template: src=php.www.conf dest=/etc/php5/fpm/pool.d/www.conf
+  when: php_fpm_default_pool.stat.exists == False or php_manage_default_pool
