@@ -1,2 +1,53 @@
 ---
-# defaults file for .
+# ---------------------------------------------------------------------------
+# PHP
+# ---------------------------------------------------------------------------
+
+php_manage_ini: True
+
+php_modules:
+  - curl
+  - imagemagick-common
+  - php5-common
+  - php5-dev
+  - php5-cli
+  - php5-fpm
+  - php5-curl
+  - php5-gd
+  - php5-imagick
+  - php5-intl
+  - php5-json
+  - php5-readline
+  - php5-xsl
+  - php5-mcrypt
+  - php5-ssh2
+  - php-pear
+  - php5-mysqlnd
+  - php5-sqlite
+#  - php5-memcache
+#  - php5-memcached
+#  - php5-redis
+#  - php5-mongo
+#  - php5-xdebug
+
+php_memory_limit: 512 # Mb
+php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+php_display_errors: "Off"
+php_log_errors: "On"
+php_post_max_size: 8 # Mb
+php_upload_max_filesize: 20 # Mb
+php_max_file_uploads: 20 # files
+php_date_timezone: "Europe/London"
+php_fix_pathinfo: False
+
+# ---------------------------------------------------------------------------
+# FPM
+# ---------------------------------------------------------------------------
+
+php_manage_fpm_config: True
+
+# ---------------------------------------------------------------------------
+# Default Pool
+# ---------------------------------------------------------------------------
+
+php_manage_default_pool: True
