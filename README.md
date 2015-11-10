@@ -61,7 +61,7 @@ Same as with ini file - specifies whether Ansible should manage your PHP FPM con
 There are currently no fpm configuration options exposed. If you need to configure some settings, please raise an issue and we'll expose those settings.
 
 
-DEFAULT FPM-POOL:
+***DEFAULT FPM-POOL:***
 
 `php_manage_default_pool`
 Same as with ini file - specifies whether Ansible should manage your default FPM pool configuration.
@@ -71,8 +71,7 @@ There are currently no fpm pool configuration options exposed. If you need to co
 Dependencies
 ------------
 
-This role depends on [localcloud-common](https://github.com/dmitrybelyakov/ansible-localcloud-common) role to be
-in place.
+This role has no dependencies.
 
 Example Playbook
 ----------------
@@ -81,7 +80,6 @@ Example Playbook
 ```yml
 - hosts: servers
   roles:
-     - localcloud-common
      - localcloud-php
 
 ```
