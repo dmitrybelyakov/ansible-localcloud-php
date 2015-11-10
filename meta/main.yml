@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: your name
+  author: Dmitry Belyakov
   description: This role will install latest stable php release with a configurable list of modules, expose important settings and manage your fpm pool set up. Use this to quickly install and manage your php deployment in a reliable way.
   license: MIT
   min_ansible_version: 1.2
