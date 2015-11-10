@@ -86,10 +86,6 @@ Example Playbook
 
 ```
 
-License
--------
-
-BSD
 
 License
 -------
