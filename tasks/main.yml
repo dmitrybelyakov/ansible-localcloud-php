@@ -3,8 +3,9 @@
 # install php
 # ------------------------------------------------------------------------------
 
-- name: add php repo
-  apt_repository: repo='ppa:ondrej/php5-5.6'
+- name: add php repositories
+  apt_repository: repo="{{php_repository}}"
+  when: php_repository is defined and php_repository != False
 
 - name: open ssl and mcrypt
   apt: pkg={{item}} state=latest
