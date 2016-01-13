@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------------
 
 #php_repository: 'ppa:ondrej/php5-5.6'
-#php_manage_ini: True
+php_manage_ini: True
 
 php_modules:
   - curl
