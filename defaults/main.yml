@@ -5,6 +5,9 @@
 
 #php_repository: 'ppa:ondrej/php5-5.6'
 php_manage_ini: True
+php_fpm_user: 'www-data'
+php_fpm_group: 'www-data'
+
 
 php_modules:
   - curl
@@ -36,6 +39,7 @@ php_upload_max_filesize: 20 # Mb
 php_max_file_uploads: 20 # files
 php_date_timezone: "Europe/London"
 php_fix_pathinfo: False
+php_opcache_on: True
 
 # ---------------------------------------------------------------------------
 # FPM
