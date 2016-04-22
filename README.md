@@ -62,6 +62,12 @@ Whether to fix scrip path info. This setting may be useful for some NGINX/PHP-FP
 Same as with ini file - specifies whether Ansible should manage your PHP FPM configuration.
 There are currently no fpm configuration options exposed. If you need to configure some settings, please raise an issue and we'll expose those settings.
 
+`php_fpm_user`
+Allows to set the user FPM is run by. This user will also be the owner of unix socket file. Defaults to `www-data`
+
+`php_fpm_group`
+Allows to set the group FPM is run by. This group will also be the owner of unix socket file. Defaults to `www-data`
+
 
 ***DEFAULT FPM-POOL:***
 
