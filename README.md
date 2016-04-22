@@ -33,7 +33,6 @@ Whether to report errors.
 `php_display_errors`
 And whether to display them.
 
-
 `php_log_errors`
 Write error messages to PHP log file.
 
@@ -48,6 +47,9 @@ Maximum number of files accepted simultaneously.
 
 `php_date_timezone`
 PHP default timezone.
+
+`php_opcache_on`
+Controls whether opcache is enabled. Defaults to true.
 
 `php_fix_pathinfo`
 Whether to fix scrip path info. This setting may be useful for some NGINX/PHP-FPM setups.
