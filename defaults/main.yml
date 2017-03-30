@@ -4,10 +4,11 @@
 # ---------------------------------------------------------------------------
 
 #php_repository: 'ppa:ondrej/php5-5.6'
+php_service_name: 'php5-fpm'
 php_manage_ini: True
+php_ini_dir: '/etc/php5'
 php_fpm_user: 'www-data'
 php_fpm_group: 'www-data'
-
 
 php_modules:
   - curl
