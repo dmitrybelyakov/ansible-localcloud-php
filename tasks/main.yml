@@ -121,3 +121,12 @@
   notify: restart php
   template: src=php.www.conf dest='{{php_ini_dir}}/fpm/pool.d/www.conf'
   when: php_fpm_default_pool.stat.exists == False or php_manage_default_pool
+
+# ------------------------------------------------------------------------------
+# regression: sometimes handler does not properly restart, so there's no socket
+# ------------------------------------------------------------------------------
+
+- name: restart php manually
+  service:
+    name: '{{php_service_name}}'
+    state: restarted
