@@ -62,7 +62,7 @@
 
 - name: backup php-cli ini (if required)
   notify: restart php
-  shell: 'mv {{php_ini_dir}}/cli/php.ini {{php_ini_dir}}/cli/php.ini.original.bak'
+  shell: 'cp {{php_ini_dir}}/cli/php.ini {{php_ini_dir}}/cli/php.ini.original.bak'
   when: php_cli_ini.stat.islnk is defined and php_cli_ini.stat.islnk == False
 
 - name: get php-cli ini stats
