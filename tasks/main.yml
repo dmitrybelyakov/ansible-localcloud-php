@@ -69,14 +69,6 @@
   stat: path='{{php_ini_dir}}/cli/php.ini' follow=False
   register: php_cli_ini
 
-- name: create php-cli config symlink
-  notify: restart php
-  file:
-    state=link
-    src='{{php_ini_dir}}/fpm/php.ini'
-    dest='{{php_ini_dir}}/cli/php.ini'
-  when: php_cli_ini.stat.exists == False
-
 
 # ------------------------------------------------------------------------------
 # backup and configure fpm
