@@ -38,36 +38,33 @@
 # backup configs and configure php
 # ------------------------------------------------------------------------------
 
+# fpm
 - name: get php-fpm ini backup stats
   stat: path='{{php_ini_dir}}/fpm/php.ini.original.bak' follow=False
   register: php_fpm_ini_bak
 
 - name: backup php-fpm ini (if required)
   notify: restart php
-  shell: 'mv {{php_ini_dir}}/fpm/php.ini {{php_ini_dir}}/fpm/php.ini.original.bak'
+  shell: 'cp {{php_ini_dir}}/fpm/php.ini {{php_ini_dir}}/fpm/php.ini.original.bak'
   when: php_fpm_ini_bak.stat.exists == False
 
-- name: get php-fpm ini stats
-  stat: path='{{php_ini_dir}}/fpm/php.ini' follow=False
-  register: php_fpm_ini
-
-- name: copy php-fpm ini to server (if required)
+- name: copy php-fpm ini to server
   notify: restart php
   template: src=php.ini dest='{{php_ini_dir}}/fpm/php.ini'
-  when: php_fpm_ini.stat.exists == False or php_manage_ini
 
-- name: get php-cli ini stats
-  stat: path='{{php_ini_dir}}/cli/php.ini' follow=False
-  register: php_cli_ini
+# cli
+- name: get php-cli ini backup stats
+  stat: path='{{php_ini_dir}}/cli/php.ini.original.bak' follow=False
+  register: php_cli_ini_bak
 
 - name: backup php-cli ini (if required)
   notify: restart php
   shell: 'cp {{php_ini_dir}}/cli/php.ini {{php_ini_dir}}/cli/php.ini.original.bak'
-  when: php_cli_ini.stat.islnk is defined and php_cli_ini.stat.islnk == False
+  when: php_cli_ini_bak.stat.exists == False
 
-- name: get php-cli ini stats
-  stat: path='{{php_ini_dir}}/cli/php.ini' follow=False
-  register: php_cli_ini
+- name: copy php-cli ini to server
+  notify: restart php
+  template: src=php.ini dest='{{php_ini_dir}}/cli/php.ini'
 
 
 # ------------------------------------------------------------------------------
@@ -83,17 +80,12 @@
   shell: 'mv {{php_ini_dir}}/fpm/php-fpm.conf {{php_ini_dir}}/fpm/php-fpm.conf.original.bak'
   when: php_fpm_config_bak.stat.exists == False
 
-- name: get php fpm config stats
-  stat: path='{{php_ini_dir}}/fpm/php-fpm.conf'
-  register: php_fpm_config
-
-- name: copy php-fpm ini to server (if required)
+- name: copy php-fpm ini to server
   notify: restart php
   template: src=php-fpm.conf dest='{{php_ini_dir}}/fpm/php-fpm.conf'
-  when: php_fpm_config.stat.exists == False or php_manage_fpm_config
 
 # ------------------------------------------------------------------------------
-# backup and configure fpm default ppo
+# backup and configure fpm default pool
 # ------------------------------------------------------------------------------
 
 - name: get php-fpm default pool backup stats
@@ -105,14 +97,9 @@
   shell: 'mv {{php_ini_dir}}/fpm/pool.d/www.conf {{php_ini_dir}}/fpm/pool.d/www.conf.original.bak'
   when: php_fpm_default_pool_bak.stat.exists == False
 
-- name: get php-fpm default pool stats
-  stat: path='{{php_ini_dir}}/fpm/pool.d/www.conf'
-  register: php_fpm_default_pool
-
-- name: copy php-fpm ini to server (if required)
+- name: copy php-fpm ini to server
   notify: restart php
   template: src=php.www.conf dest='{{php_ini_dir}}/fpm/pool.d/www.conf'
-  when: php_fpm_default_pool.stat.exists == False or php_manage_default_pool
 
 # ------------------------------------------------------------------------------
 # regression: sometimes handler does not properly restart, so there's no socket
