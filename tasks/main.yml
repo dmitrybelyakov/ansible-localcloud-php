@@ -8,15 +8,18 @@
   when: php_repository is defined and php_repository != False
 
 - name: open ssl and mcrypt
-  apt: pkg={{item}} state=latest
-  with_items:
-    - mcrypt
-    - openssl
+  apt: 
+    state: present
+    pkg: [
+      'mcrypt',
+      'openssl'
+    ]
 
 - name: install php
-  apt: pkg={{item}} state=present
+  apt: 
+    pkg: "{{php_modules}}" 
+    state: present
   notify: restart php
-  with_items: "{{php_modules}}"
 
 - name: ensure php starts at boot
   service: name='{{php_service_name}}' state=started enabled=yes
