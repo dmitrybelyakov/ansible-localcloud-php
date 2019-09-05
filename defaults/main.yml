@@ -11,26 +11,28 @@ php_fpm_socket_location: '/var/run/php5-fpm.sock'
 php_fpm_user: 'www-data'
 php_fpm_group: 'www-data'
 
-php_modules:
-  - curl
-  - imagemagick-common
-  - php5-common
-  - php5-cli
-  - php5-fpm
-  - php5-curl
-  - php5-imagick
-  - php5-intl
-  - php5-json
-  - php5-readline
-  - php5-xsl
-  - php5-mcrypt
-  - php5-mysql
-  - php5-sqlite
-#  - php5-memcache
-#  - php5-memcached
-#  - php5-redis
-#  - php5-mongo
-#  - php5-xdebug
+php_modules: [
+  'curl',
+  'imagemagick-common', 
+  'php5-common',
+  'php5-cli',
+  'php5-fpm',
+  'php5-curl',
+  'php5-imagick',
+  'php5-intl',
+  'php5-json',
+  'php5-readline',
+  'php5-xsl',
+  'php5-mcrypt',
+  'php5-mysql',
+  'php5-sqlite'
+#  'php5-memcache',
+#  'php5-memcached',
+#  'php5-redis',
+#  'php5-mongo',
+#  'php5-xdebug'
+]
+
 
 php_memory_limit: 512 # Mb
 php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
