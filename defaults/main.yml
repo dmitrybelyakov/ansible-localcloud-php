@@ -1,24 +1,13 @@
 ---
-# ---------------------------------------------------------------------------
-# PHP
-# ---------------------------------------------------------------------------
 
-#php_repository: 'ppa:ondrej/php'
-php_service_name: 'php-fpm'
-php_manage_ini: True
-php_ini_dir: '/etc/php5'
-php_fpm_socket_location: '/var/run/php-fpm.sock'
-php_fpm_user: 'www-data'
-php_fpm_group: 'www-data'
+php_repository: 'ppa:ondrej/php'
+php_service_name: 'php7.4-fpm'
 
 php_modules: [
-
-   # core
   'php7.4-common',
   'php7.4-cli',
   'php7.4-fpm',
 
-  # extension
   'php7.4-curl',
   'php7.4-ds',
   'php7.4-gd',
@@ -38,37 +27,4 @@ php_modules: [
   'php7.4-xml',
   'php7.4-xsl',
   'php7.4-yaml',
-#  'php7.4-mongo',
-#  'php7.4-xdebug'
 ]
-
-
-php_memory_limit: 512 # Mb
-php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
-php_display_errors: "Off"
-php_log_errors: "On"
-php_post_max_size: 8 # Mb
-php_upload_max_filesize: 20 # Mb
-php_max_file_uploads: 20 # files
-php_date_timezone: "Europe/London"
-php_fix_pathinfo: False
-php_opcache_on: True
-
-# ---------------------------------------------------------------------------
-# FPM
-# ---------------------------------------------------------------------------
-
-php_manage_fpm_config: True
-php_fpm_pm: dynamic
-php_fpm_pm_max_children: 5
-php_fpm_pm_start_servers: 2
-php_fpm_pm_min_spare_servers: 1
-php_fpm_pm_max_spare_servers: 3
-php_fpm_pm_max_requests: 0
-php_fpm_pm_idle_timeout: 10s
-
-# ---------------------------------------------------------------------------
-# Default Pool
-# ---------------------------------------------------------------------------
-
-php_manage_default_pool: True
